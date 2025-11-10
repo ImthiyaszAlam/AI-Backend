@@ -25,3 +25,18 @@ async def call_open_ai(prompt:str):
     }
 
     async with httpx.AsyncClient(timeout=10.0) as client:
+        response = await client.post(url,headers=headers,json=data)
+        if response.status_code !=200 :
+            raise HTTPException (status_code=response.status_code,detail=response.text)
+        return response.json()["choices"][0]["message"]["content"]
+    
+
+    @app.post("/chat")
+    async def chat(request:ChatRequest):
+        try:
+            reply = await call_open_ai(request.message)
+            return {"user_message": request.message, "ai_reply": reply}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+
