@@ -37,19 +37,20 @@ def create_user(request):
     }, status=405)
 
 def users(request):
+    users = User.objects.all()
 
+    user_list = []
+
+    for user in users:
+        user_list.append({
+            "id": user.id,
+            "name": user.name,
+            "mobile": user.mobile
+        })
 
     return JsonResponse({
-        "users":[
-            {
-                "id":1,
-                "name":"Imthiyas Alam",
-                "mobile":8271665964
-            },
-            {
-                "id":2,
-                "name":"Alam",
-                "mobile":9783737378
-            }
-        ]
+        "users": user_list
     })
+
+
+
