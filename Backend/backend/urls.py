@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from users.views import create_user, hello, users
+from users.views import create_user, hello, user_detail, users
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/',hello),
     path('users/',users),
     path('users/create/', create_user),
+    path('users/<int:id>/', user_detail),
 
 ]

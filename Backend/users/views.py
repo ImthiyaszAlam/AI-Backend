@@ -53,4 +53,12 @@ def users(request):
     })
 
 
+def user_detail(request, id):
+    user = User.objects.get(id=id)
+
+    return JsonResponse({
+        "id": user.id,
+        "name": user.name,
+        "mobile": user.mobile
+    })
 
