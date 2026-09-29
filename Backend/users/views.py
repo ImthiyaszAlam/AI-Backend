@@ -62,3 +62,26 @@ def user_detail(request, id):
         "mobile": user.mobile
     })
 
+@csrf_exempt
+def update_user(request, id):
+    if request.method == "PUT":
+
+        data = json.loads(request.body)
+
+        user = User.objects.get(id=id)
+
+        user.name = data["name"]
+        user.mobile = data["mobile"]
+
+        user.save()
+
+        return JsonResponse({
+            "message": "User updated successfully",
+            "id": user.id,
+            "name": user.name,
+            "mobile": user.mobile
+        })
+
+    return JsonResponse({
+        "message": "Only PUT method is allowed"
+    }, status=405)
