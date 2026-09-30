@@ -85,3 +85,23 @@ def update_user(request, id):
     return JsonResponse({
         "message": "Only PUT method is allowed"
     }, status=405)
+
+
+@csrf_exempt
+def delete_user(request,id):
+    if(request.method =='DELETE'):
+        user = User.objects.get(id=id)
+        deleted_user = {
+            "id": user.id,
+            "name": user.name,
+            "mobile": user.mobile
+        }
+        user.delete()
+    
+        return JsonResponse({
+            "message":"User deleted successfully",
+            "user":deleted_user
+        })
+    return JsonResponse({
+    "message":"Only DELETE method is allowed"
+},status = 405)
