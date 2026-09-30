@@ -1,6 +1,6 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from users.models import User
@@ -52,9 +52,9 @@ def users(request):
         "users": user_list
     })
 
-
 def user_detail(request, id):
-    user = User.objects.get(id=id)
+
+    user = get_object_or_404(User, id=id)
 
     return JsonResponse({
         "id": user.id,
@@ -85,7 +85,6 @@ def update_user(request, id):
     return JsonResponse({
         "message": "Only PUT method is allowed"
     }, status=405)
-
 
 @csrf_exempt
 def delete_user(request,id):
